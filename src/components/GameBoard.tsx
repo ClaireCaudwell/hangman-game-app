@@ -1,51 +1,64 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
-type Props = {
-    enteredWord: string
-};
+import AlphabetButtons from "./AlphabetButtons";
+import { RootState } from "../App";
 
-const GameBoard: React.FC<Props> = ({ enteredWord }) => {   
+const GameBoard: React.FC= () => {
+    const enteredWord = useSelector((state: RootState) => state.gamestate.enteredWord);
+    const guessCounter = useSelector((state: RootState) => state.gamestate.guessesCount);
+    const outcomeString = useSelector((state: RootState) => state.gamestate.confirmOutcomeString);
+    const letterIsAMatch = useSelector((state: RootState) => state.gamestate.letterIsAMatch);
+    const guessedLetter = useSelector((state: RootState) => state.gamestate.guessedLetter);
 
-    let [ enteredWordArray, setEnteredWordArray ] = useState<String[]>([]);
+    let [ enteredWordArray, setEnteredWordArray ] = useState<string[]>([]);
 
     useEffect(() => {
         setEnteredWordArray(enteredWord.split(""))
     }, [setEnteredWordArray, enteredWord]);
 
-    const alphabetArray:string[] = [];
-    let alphabetNumber:number = 96;
-
-    for(let i = 0; i < 26; i++) {
-        alphabetNumber +=1;
-        const letter:string = String.fromCharCode(alphabetNumber);
-        alphabetArray.push(letter);
-    };
-
-    const handleLetterGuessed = () => {
-
+    console.log(typeof enteredWordArray);
+    
+    // Creates spaces to be will be replaced by the letter when the user guesses the correct letter
+    let spaceArray = [];
+    for(let i = 0; i < enteredWord.length; i++){
+        spaceArray.push("");
     };
 
     return (
-        <div>
-            {enteredWordArray.map((letterspace, index) => (
-                <div key={index}>{letterspace}</div>
-            ))}
-
-            {alphabetArray.map((letter, index) => (
-                <button 
-                    type="button" 
-                    key={index}
-                    onClick={handleLetterGuessed}
-                >
-                    {letter}
-                </button>
-            ))}
-        </div>
+        <>
+            <WordContainer>
+                <p>{outcomeString}</p>
+                <p>You have guessed: {guessCounter}/10 times</p>
+                <p>{guessedLetter}</p>  
+                {spaceArray.map((space, index) => (
+                    <LetterDiv key={index}>{space}</LetterDiv>
+                ))}
+            </WordContainer>
+            <AlphabetButtons
+                enteredWordArray={enteredWordArray}
+                guessCounter={guessCounter}
+            />
+        </>
     );
 };
 
 export default GameBoard;
 
+const WordContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 20px 0;
+`;
+
+const LetterDiv = styled.div`
+    padding: 10px;
+    border-bottom: 2px solid #000;
+    width: 15px;
+`;
 // Take the enteredWord and push each letter from the word into an array as an individual element
 // Create an alfaphbet, where each button is a letter. This submits the letter choice and checks if it's a match
 // Then check if the letter exists in the array (once or more than once) and show the letter if correct
