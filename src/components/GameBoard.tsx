@@ -4,42 +4,61 @@ import styled from "styled-components";
 
 import AlphabetButtons from "./AlphabetButtons";
 import { RootState } from "../App";
+import { OutcomeString, GuessesSoFar, GameResult } from "./GameStrings";
+import RestartButton from "./RestartButton";
 
-const GameBoard: React.FC= () => {
-    const enteredWord = useSelector((state: RootState) => state.gamestate.enteredWord);
-    const guessCounter = useSelector((state: RootState) => state.gamestate.guessesCount);
-    const outcomeString = useSelector((state: RootState) => state.gamestate.confirmOutcomeString);
-    const letterIsAMatch = useSelector((state: RootState) => state.gamestate.letterIsAMatch);
-    const guessedLetter = useSelector((state: RootState) => state.gamestate.guessedLetter);
+const GameBoard: React.FC = () => {
 
     let [ enteredWordArray, setEnteredWordArray ] = useState<string[]>([]);
 
+    const enteredWord = useSelector((state: RootState) => state.gamestate.enteredWord);
+    const guessedLetters = useSelector((state: RootState) => state.gamestate.guessedLetter);
+
     useEffect(() => {
-        setEnteredWordArray(enteredWord.split(""))
+        setEnteredWordArray(enteredWord.split(""));
     }, [setEnteredWordArray, enteredWord]);
-
-    console.log(typeof enteredWordArray);
     
-    // Creates spaces to be will be replaced by the letter when the user guesses the correct letter
-    let spaceArray = [];
-    for(let i = 0; i < enteredWord.length; i++){
-        spaceArray.push("");
-    };
+    const guessCounter = guessedLetters.length;
+    
+    let spaceLetterArray = [];
+    // Check each element in the eneteredWordArray against the string elements in the guessLetters array from redux based on the length of the word.
+    // If it's a match then the element is pushed into the spaceLetterArray i n index order
+    for(let i = 0; i < enteredWordArray.length; i++){
+        if(guessedLetters.includes(enteredWordArray[i])){
+            spaceLetterArray.push(enteredWordArray[i]);
+        } else {
+            spaceLetterArray.push("");
+        }
+    }
 
+    const itsAMatch = enteredWordArray.includes(guessedLetters[guessedLetters.length -1]);
+        
     return (
         <>
             <WordContainer>
-                <p>{outcomeString}</p>
-                <p>You have guessed: {guessCounter}/10 times</p>
-                <p>{guessedLetter}</p>  
-                {spaceArray.map((space, index) => (
+                <GameResult 
+                    spaceLetterArray={spaceLetterArray}
+                    guessCounter={guessCounter}
+                />
+                <GuessesSoFar 
+                    guessCounter={guessCounter}                   
+                />
+                <OutcomeString 
+                    itsAMatch={itsAMatch} 
+                />
+                {spaceLetterArray.map((space, index) => (
                     <LetterDiv key={index}>{space}</LetterDiv>
                 ))}
             </WordContainer>
             <AlphabetButtons
-                enteredWordArray={enteredWordArray}
                 guessCounter={guessCounter}
+                guessedLetters={guessedLetters}
             />
+            {
+                guessCounter === 10 && !spaceLetterArray.includes("") && (
+                    <RestartButton />
+                )
+            }
         </>
     );
 };
@@ -59,10 +78,3 @@ const LetterDiv = styled.div`
     border-bottom: 2px solid #000;
     width: 15px;
 `;
-// Take the enteredWord and push each letter from the word into an array as an individual element
-// Create an alfaphbet, where each button is a letter. This submits the letter choice and checks if it's a match
-// Then check if the letter exists in the array (once or more than once) and show the letter if correct
-// If the letter doesn't exist show the letter on the top right so the user knows it's already been entered
-// Show a counter for each go the user takes (max 10 goes)
-// If the user doesn't guess correctly then that letter is shown on the top right corner and a text is shown to say that the guess was incorrect and how many goes they have left. 
-// If the user answers correctly then they get a confetti shower, if not then they get a rainfall of sad emoji faces.

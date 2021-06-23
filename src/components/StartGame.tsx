@@ -9,9 +9,10 @@ const StartGame: React.FC = () => {
     const dispatch = useDispatch();
     const wordIsSubmitted = useSelector((state: RootState) => state.gamestate.gameStarted);
 
-    const [ enteredWord, setEnteredWord ] = useState<any>([]);
+    const [ enteredWord, setEnteredWord ] = useState<string>("");
 
     const handleSubmitWord = (enteredWord:string) => {
+        enteredWord = enteredWord.toLowerCase();
         dispatch(Game.actions.addWord(enteredWord));
         dispatch(Game.actions.updateGameStarted(true));
     };
