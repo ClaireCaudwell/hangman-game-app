@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface IState {
     enteredWord: string,
     gameStarted: boolean,
-    guessedLetter: string[],
+    guessedLetters: string[],
 };
 
 const initialState: IState = {
     enteredWord: "",
     gameStarted: false,
-    guessedLetter: [],
+    guessedLetters: [],
 };
 
 export const Game = createSlice({
@@ -24,10 +24,14 @@ export const Game = createSlice({
             const gameStarted = action.payload;
             state.gameStarted = gameStarted;
         },
-        addGuessedLetter: (state, action: PayloadAction<string>) => {
+        addGuessedLetters: (state, action: PayloadAction<string>) => {
             const letterGuessed = action.payload;
-            state.guessedLetter.push(letterGuessed);
+            state.guessedLetters.push(letterGuessed);
         },
+        clearGuessedLetters: (state, action: PayloadAction<string[]>) => {
+            const emptyArray = action.payload;
+            state.guessedLetters  = emptyArray;
+        }
     }
 });
 

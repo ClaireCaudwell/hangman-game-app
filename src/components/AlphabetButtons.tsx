@@ -21,7 +21,7 @@ const AlphabetButtons: React.FC<Props>= ({ guessCounter, guessedLetters }) => {
     };
 
     const handleLetterGuessed = (letter:string) => {
-        dispatch(Game.actions.addGuessedLetter(letter));
+        dispatch(Game.actions.addGuessedLetters(letter));
     };
 
     return (

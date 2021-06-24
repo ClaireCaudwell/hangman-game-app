@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import GameBoard from "./GameBoard";
+import PlayGame from "./PlayGame";
 import Game from "../reducer/gameState";
 import { RootState } from "../App";
 
 const StartGame: React.FC = () => {
     const dispatch = useDispatch();
+
     const wordIsSubmitted = useSelector((state: RootState) => state.gamestate.gameStarted);
+    const gameStarted = useSelector((state: RootState) => state.gamestate.gameStarted);
 
     const [ enteredWord, setEnteredWord ] = useState<string>("");
+
+    useEffect(() => {
+        if(!gameStarted) {
+            setEnteredWord("");
+            dispatch(Game.actions.addWord(""));
+            dispatch(Game.actions.clearGuessedLetters([]));
+        }
+    }, [gameStarted, setEnteredWord, dispatch]);
 
     const handleSubmitWord = (enteredWord:string) => {
         enteredWord = enteredWord.toLowerCase();
@@ -29,12 +39,13 @@ const StartGame: React.FC = () => {
                     />
                     <button 
                         type="submit" 
-                        onClick={() => handleSubmitWord(enteredWord)}>
-                            SUBMIT
+                        onClick={() => handleSubmitWord(enteredWord)}
+                    >
+                        SUBMIT
                     </button>
                 </>
             ) : (
-                <GameBoard />
+                <PlayGame />
             )}
         </main>
     );

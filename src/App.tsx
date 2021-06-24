@@ -3,7 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import gameState from "./reducer/gameState";
 
 import GameHeader from "./components/GameHeader";
-import StartGame from "./components/StartGame";
+import StartGame from "./pages/StartGame";
 
 const reducer = combineReducers({
   gamestate: gameState.reducer

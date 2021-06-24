@@ -28,18 +28,21 @@ export const GuessesSoFar: React.FC<PropCount> = ({ guessCounter }) => {
 };
 
 type PropResult = {
-    spaceLetterArray: string[];
     guessCounter: number,
+    spaceLetterArrayIncludes: boolean,
 }
 
-export const GameResult: React.FC<PropResult> = ({ spaceLetterArray, guessCounter }) => {
+export const GameResult: React.FC<PropResult> = ({
+    guessCounter,
+    spaceLetterArrayIncludes
+ }) => {
 
     return (
         <>
             <p>{
-                guessCounter < 10 && spaceLetterArray.includes("") ? null 
+                guessCounter < 10 && spaceLetterArrayIncludes ? null 
                 : 
-                spaceLetterArray.includes("") ? "You didn't win 🙁 Try again!" : 
+                spaceLetterArrayIncludes ? "You didn't win 🙁 Try again!" : 
                 "You've won the game 🎉!"}</p>        
         </>
     );
