@@ -70,7 +70,7 @@ const WordContainer = styled.div`
 const LetterDiv = styled.div`
     padding: 7px;
     border-bottom: 2px solid #404040;
-    width: 25px;
+    width: 30px;
     height: 35px;
     text-align: center;
     font-size: 18px;

@@ -50,7 +50,7 @@ const WarningText = styled.p`
 
 const WordInput = styled.input`
     border: none;
-    background-color: #e0e0e07f;
+    background-color: #dad8d8;
     padding: 10px;
     font-size: 16px;
     outline: none;
