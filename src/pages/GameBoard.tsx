@@ -81,7 +81,7 @@ const MainContainer = styled.main`
 `;
 
 const GameBoardContainer = styled.div`
-    background: linear-gradient(#b4b4b4, #7a7b81); 
+    background: linear-gradient(#c0bfbf, #5f5f61); 
     padding: 20px 0;
     display: flex;
     flex-direction: column;
