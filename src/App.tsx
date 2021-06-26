@@ -3,8 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createGlobalStyle } from "styled-components";
 
 import gameState from "./reducer/gameState";
-import GameHeader from "./components/GameHeader";
-import StartGame from "./pages/StartGame";
+import GameBoard from "./pages/GameBoard";
 
 const reducer = combineReducers({
   gamestate: gameState.reducer
@@ -18,8 +17,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <GlobalStyles />
-      <GameHeader />
-      <StartGame />
+      <GameBoard />
     </Provider>
   );
 };
@@ -30,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
     color: #404040;
-    font-family: sans-serif;
+    font-family: 'Press Start 2P', cursive;
   }
 
   body {

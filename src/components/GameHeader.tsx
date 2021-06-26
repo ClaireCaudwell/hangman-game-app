@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const GameHeader = () => {
     return (
         <HeaderContainer>
-            <HeaderTitle>Guess the word</HeaderTitle>
-            <TextP>Enter a word to challenge your apponent to a game of guess the word</TextP>
+            <HeaderTitle>
+                Guess the word
+            </HeaderTitle>
         </HeaderContainer>
     );
 };
@@ -12,15 +13,21 @@ const GameHeader = () => {
 export default GameHeader;
 
 const HeaderContainer = styled.header`
-    margin: 20px 10px;
-    text-align: center;
-    border-bottom: 1px solid #404040;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
-const HeaderTitle = styled.h1`
+const HeaderTitle = styled.h2`
     letter-spacing: 2px;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 3px;
+    text-align: center;
+    width: 250px;
 `;
 
 export const TextP = styled.p`
-    font-size: 16px;
+    font-size: 12px;
+    font-weight: 400;
 `;

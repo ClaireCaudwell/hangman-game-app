@@ -1,24 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IState {
-    enteredWord: string,
+    enteredWordArray: string[],
     gameStarted: boolean,
-    guessedLetters: string[],
+    guessedLettersArray: string[],
+    guessCounter: number,
 };
 
 const initialState: IState = {
-    enteredWord: "",
+    enteredWordArray: [],
     gameStarted: false,
-    guessedLetters: [],
+    guessedLettersArray: [],
+    guessCounter: 0,
 };
 
 export const Game = createSlice({
     name: "game",
     initialState,
     reducers: {
-        addWord: (state, action: PayloadAction<string>) => {
-            const enteredWord = action.payload;
-            state.enteredWord = enteredWord;
+        addWordLetter: (state, action: PayloadAction<string>) => {
+            const letter = action.payload;
+            state.enteredWordArray.push(letter);
+        },
+        removeWordLetter: (state) => {
+            state.enteredWordArray.pop();
         },
         updateGameStarted: (state, action: PayloadAction<boolean>) => {
             const gameStarted = action.payload;
@@ -26,11 +31,16 @@ export const Game = createSlice({
         },
         addGuessedLetters: (state, action: PayloadAction<string>) => {
             const letterGuessed = action.payload;
-            state.guessedLetters.push(letterGuessed);
+            state.guessedLettersArray.push(letterGuessed);
         },
-        clearGuessedLetters: (state, action: PayloadAction<string[]>) => {
-            const emptyArray = action.payload;
-            state.guessedLetters  = emptyArray;
+        updateGuessCounter: (state) => {
+            state.guessCounter = state.guessCounter +1;
+        },
+        clearGameBoard: (state) => {
+            state.enteredWordArray = [];
+            state.gameStarted = false;
+            state.guessedLettersArray = [];
+            state.guessCounter = 0;
         }
     }
 });
